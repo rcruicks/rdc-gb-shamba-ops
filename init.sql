@@ -1,4 +1,17 @@
 -- Enter SQL statements below or load a SQL script into the editor from the toolbar.
+drop table asset_type;
+create table asset_type (
+	id			integer not null,
+	name		varchar(30) not null,
+	tab			varchar(30) not null
+);
+insert into asset_type values(1, 'Carrier', 'CARRIERS');
+insert into asset_type values(2, 'Charger', 'CHARGERS');
+insert into asset_type values(3, 'Zip module', 'ZIPMODULES');
+insert into asset_type values(4, 'Pilot', 'DRIVERS');
+insert into asset_type values(5, 'Light', 'LIGHTS');
+insert into asset_type values(6, 'Pilot kit', 'KITS');
+
 drop table interface_type;
 create table interface_type (
 	id				integer not null unique,
@@ -20,7 +33,6 @@ create table location_type (
 	id			integer not null unique,
 	name		varchar(32) not null
 );
-select count(*) from location_type;
 insert into location_type values(0,'STORES');
 insert into location_type values(1,'COLLEGE');
 insert into location_type values(2,'DISPENSARY');
@@ -224,6 +236,7 @@ create table chargers (
 );
 insert into chargers (id,name,zin,chgtyp,location) values(1,'zipchg0101',3001,1,0);
 insert into chargers (id,name,zin,chgtyp,location) values(2,'zipchg0102',3002,1,16);
+insert into chargers (id,name,zin,chgtyp,location) values(3,'zipchg0103',3003,1,70);
 
 drop table zip_loc;
 create table zip_loc (
@@ -238,9 +251,9 @@ insert into zip_loc (zip_id,loc_id,loctime) values(2,16,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(3,16,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(4,16,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(5,16,current timestamp);
-insert into zip_loc (zip_id,loc_id,loctime) values(6,0,current timestamp);
-insert into zip_loc (zip_id,loc_id,loctime) values(7,0,current timestamp);
-insert into zip_loc (zip_id,loc_id,loctime) values(8,0,current timestamp);
+insert into zip_loc (zip_id,loc_id,loctime) values(6,70,current timestamp);
+insert into zip_loc (zip_id,loc_id,loctime) values(7,70,current timestamp);
+insert into zip_loc (zip_id,loc_id,loctime) values(8,70,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(9,0,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(10,0,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(21,0,current timestamp);
@@ -253,3 +266,43 @@ insert into zip_loc (zip_id,loc_id,loctime) values(27,0,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(28,0,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(29,0,current timestamp);
 insert into zip_loc (zip_id,loc_id,loctime) values(30,0,current timestamp);
+
+drop table sponsors;
+create table sponsors (
+	id				integer not null,
+	firstname varchar(30) not null,
+	lastname	varchar(30),
+	org				varchar(30),
+	contact		varchar(30)
+);
+insert into sponsors values(1,'Jim','Walton','Waltons Mountain','1-512-555-1414');
+insert into sponsors values(2,'Jim','Rockford','Rockford Files','1-416-555-1414');
+
+drop table sponsorship;
+create table sponsorship (
+	spn_id		integer not null,
+	asstyp    integer not null,
+	ass_id 		integer not null
+)
+insert into sponsorship values(1,1,11);
+insert into sponsorship values(1,1,12);
+insert into sponsorship values(1,2,1);
+
+drop table request_type;
+create table request_type (
+	id				integer not null,
+	name			varchar(16) not null,
+	desc      varchar(128)
+);
+insert into request_type values(1,'RESUPPLY','Resupply power unit - normal');
+insert into request_type values(2,'URGENT','Resupply power unit - urgent');
+insert into request_type values(2,'ADDPILOT','Assign pilot to quad');
+
+drop table requests;
+create table requests (
+	loc_id		integer not null,
+	reqtyp		integer not null,
+	reqtime		timestamp not null,
+	status		integer not null,
+	notes			varchar(128)
+);
